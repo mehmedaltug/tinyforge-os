@@ -1,2 +1,4 @@
 out/*
 out
+.clean_build
+.fully_clean
