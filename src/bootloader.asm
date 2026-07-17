@@ -6,10 +6,13 @@ mov es, ax
 mov ss, ax
 mov sp, 0x7c00
 
-mov bx, KERNEL
-mov al, 1
+mov bx, KERNEL ; Where to put read sectors
+mov al, 1      ; How many sectors
+mov cl, 2      ; Where to start
 
-jmp READ_DISK
+
+call READ_DISK
+jmp bx
 
 %include "lib/read_disk.asm"
 

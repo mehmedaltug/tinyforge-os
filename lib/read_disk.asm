@@ -1,8 +1,9 @@
 BOOT_DRIVE db 0
 
-; Read al sectors, from drive 0 and map result to bx
+; Read al sectors, starting from cl (1 is bootloader), from drive 0 and map result to bx
 READ_DISK:
     pusha
+    push cx
     push bx
     push ax
     mov [BOOT_DRIVE], dl
@@ -14,10 +15,10 @@ READ_DISK:
     
     pop ax
     pop bx
+    pop cx
     mov ah, 0x02                   ; disk read code
     mov ch, 0                      ; cylinder
     mov dh, 0                      ; disk number
-    mov cl, 2                      ; where to start reading (bootloader is 1)
     mov dl, [BOOT_DRIVE]           ; drive number to read
     int 0x13
     
