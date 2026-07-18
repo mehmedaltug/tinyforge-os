@@ -1,17 +1,20 @@
-[org 0x7e00]
+%include "lib/constants.asm"
+[org KERNEL_START]
 
-mov bx, text
+pop cx
+cmp cx, KERNEL_CODE
+jne .PROGRAM_END
 
-.print_loop:
-    mov ah, 0x0e
-    mov al, [bx]
-    inc bx
-    cmp al, 0
-    je .print_loop_exit
-    int 0x10
-    jmp .print_loop
-.print_loop_exit:
-jmp $
+mov bx, PROGRAM_START
 
-text:
-    db "Hello, World!",0
+call .TEST
+call READ_DISK
+jmp PROGRAM_START
+
+.PROGRAM_END:
+    jmp $
+
+%include "src/program_register.asm"
+%include "lib/read_disk.asm"
+
+times 512 - $ + $$ db 0
