@@ -6,17 +6,17 @@ mov es, ax
 mov ss, ax
 mov sp, 0x7c00
 
-mov bx, KERNEL ; Where to put read sectors
-mov al, 1      ; How many sectors
-mov cl, 2      ; Where to start
-
+mov bx, KERNEL_START            ; Where to put read sectors
+mov al, 1                       ; How many sectors
+mov cl, 2                       ; Where to start
 
 call READ_DISK
+mov cx, KERNEL_CODE
+push cx
 jmp bx
 
+%include "lib/constants.asm"
 %include "lib/read_disk.asm"
 
 times 510-($-$$) db 0
 dw 0xaa55
-
-KERNEL:
