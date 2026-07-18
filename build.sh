@@ -16,16 +16,31 @@ if [[ $1 == "clean" ]]; then
 fi
 
 if [[ $1 == "build" ]]; then
+    mkdir -p ./out/programs
     nasm -f bin ./src/kernel.asm -o ./out/kernel.bin
     nasm -f bin ./src/bootloader.asm -o ./out/bootloader.bin
-    cat ./out/bootloader.bin ./out/kernel.bin > $OUTPUT_FILE
+    for i in ./programs/*; do
+        if [ -f "$i" ]; then
+            FILE_FULL_NAME=${i##*/}
+            FILE_NAME=${FILE_FULL_NAME%.*}
+            nasm -f bin "./programs/${FILE_FULL_NAME}" -o "./out/programs/${FILE_NAME}.bin"
+        fi
+    done
+    cat ./out/bootloader.bin ./out/kernel.bin ./out/programs/* > $OUTPUT_FILE
     exit
 fi
 
 if [[ $1 == "run" ]]; then
     nasm -f bin ./src/kernel.asm -o ./out/kernel.bin
     nasm -f bin ./src/bootloader.asm -o ./out/bootloader.bin
-    cat ./out/bootloader.bin ./out/kernel.bin > $OUTPUT_FILE
+    for i in ./programs/*; do
+        if [ -f "$i" ]; then
+            FILE_FULL_NAME=${i##*/}
+            FILE_NAME=${FILE_FULL_NAME%.*}
+            nasm -f bin "./programs/${FILE_FULL_NAME}" -o "./out/programs/${FILE_NAME}.bin"
+        fi
+    done
+    cat ./out/bootloader.bin ./out/kernel.bin ./out/programs/* > $OUTPUT_FILE
     qemu-system-x86_64 -drive file=./out/boot.img,format=raw
     exit
 fi
