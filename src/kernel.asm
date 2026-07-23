@@ -15,6 +15,7 @@ jmp PROGRAM_START
     jmp $
 
 %include "src/program_register.asm"
+%include "lib/clear_screen.asm"
 %include "lib/read_disk.asm"
 
 times 512 - $ + $$ db 0
