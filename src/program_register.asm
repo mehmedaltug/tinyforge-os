@@ -1,20 +1,19 @@
 ; Programs are loaded as starting positions and sector counts
-; Formula:
+; Bigger programs (>4 sectors) need to load their remaining parts manually
+; TODO: add a multi load functionality
 ; let NUM-NAME.asm be the program
-; cl = NUM + 3 + sum(al up to current) - al
-; sum(al) = cat src/program_register.asm | grep "mov al" | cut -d', ' -f2 | awk '{sum += $1} END {print sum}' 
+; cx = NUM
 
 TEST:
-    mov cl, 0
+    mov cx, 0
     jmp FINISH
 
 COW:
-    mov cl, 1
+    mov cx, 1
     jmp FINISH
 
 FINISH:
-    mov ch, 0
     mul cx, 4
-    add cl, 3
+    add cx, 3
     mov al, 4
     ret
