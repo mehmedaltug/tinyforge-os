@@ -1,3 +1,6 @@
+%include "lib/constants.asm"
+[org PROGRAM_START]
+
 cow:
 	mov bx, cow_part1
 	mov bx, cow_part1
@@ -21,7 +24,9 @@ cow:
 	mov bx, cow_part7
 	call print
 	call print_nl
-	ret
+	mov cx, PROGRAM_EXEC_FINISHED
+	push cx
+	jmp KERNEL_START
 
 cow_part1:
 	db "           (    )",0
@@ -37,3 +42,8 @@ cow_part6:
 	db "     |/ `.;|/;",0
 cow_part7:
 	db '     "     " "',0
+
+%include "lib/print.asm"
+%include "lib/print_nl.asm"
+
+times 2048 - $ + $$ db 0

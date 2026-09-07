@@ -8,7 +8,7 @@ str_to_int:
 		je str_to_int_end
 		sub cl, '0'
 		imul ax, 10
-		add ax, dx
+		add ax, cx
 		inc bx
 		jmp str_to_int_loop
     str_to_int_end:

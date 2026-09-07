@@ -6,7 +6,7 @@ print:
 	print_loop:
 		mov al, [bx]
 		cmp al, 0
-		je _end
+		je print_end
 		int 0x10
 		inc bx
 		jmp print_loop

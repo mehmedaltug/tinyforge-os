@@ -2,17 +2,23 @@
 
 strcmp:
     push ax
+    push di
+    mov di, cx
     strcmp_loop:
         mov al, [bx]
-        mov ah, [cx]
+        mov ah, [di]
         cmp al, ah
         jne strcmp_false
         inc bx
-        inc cx
+        inc di
         cmp al, 0
         jne strcmp_loop
+        pop di
+        pop ax
         mov bx, 0x0001
         ret
     strcmp_false:
+        pop di
+        pop ax
         mov bx, 0x0000
         ret

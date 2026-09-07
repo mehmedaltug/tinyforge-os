@@ -11,9 +11,11 @@ mov bx, text
     int 0x10
     jmp .print_loop
 .print_loop_exit:
-jmp KERNEL
+    mov cx, PROGRAM_EXEC_FINISHED
+    push cx
+    jmp KERNEL_START
 
 text:
     db "Hello, World!",0
 
-times 512 - $ + $$ db 0
+times 2048 - $ + $$ db 0

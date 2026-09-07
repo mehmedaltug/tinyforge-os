@@ -11,8 +11,6 @@ mov al, 1                       ; How many sectors
 mov cl, 2                       ; Where to start
 
 call READ_DISK
-mov cx, KERNEL_CODE
-push cx
 jmp bx
 
 %include "lib/constants.asm"
