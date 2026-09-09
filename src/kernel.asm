@@ -1,23 +1,79 @@
 %include "lib/constants.asm"
 [org KERNEL_START]
 
-pop cx
-cmp cx, PROGRAM_EXEC_FINISHED
-je PROGRAM_END
+cmp [command], 0
+jne NEW_LINE.skip_exec
 
-mov bx, PROGRAM_START
+MAIN:
+    call clear_screen
+    mov di, command
+    mov si, prompt
+    call print
+    .loop:
+        call get_char
+        cmp al, BACKSPACE_CHAR
+        jne .non_backspace
+        
+        cmp di, command
+        jne .erase_char
+        mov al, SPACE_CHAR
+        call print_char
+        jmp .loop
+        .erase_char:
+            mov byte [di], 0
+            dec di
+            mov al, SPACE_CHAR
+            call print_char
+            mov al, BACKSPACE_CHAR
+            call print_char
+            jmp .loop
+        .non_backspace:
+            cmp al, ENTER_CHAR
+            je NEW_LINE
+            mov byte [di], al
+            inc di
+            jmp .loop
 
-call COW
-call READ_DISK
-jmp PROGRAM_START
-
-PROGRAM_END:
-    mov al, 'F'
-    call print_char
-    jmp $
+NEW_LINE:
+    call print_nl
+    mov si, command
+    call COMMANDS
+    cmp bx, 0
+    je .skip_exec
+    call PROGRAM_EXEC
+    .skip_exec:
+    mov si, prompt
+    call print
+    call RESET_COMMAND
+    jmp MAIN.loop
 
 %include "src/program_register.asm"
 %include "lib/print_char.asm"
+%include "lib/print_nl.asm"
+%include "lib/print.asm"
+%include "lib/clear_screen.asm"
 %include "lib/read_disk.asm"
+%include "lib/input.asm"
 
-times 512 - $ + $$ db 0
+PROGRAM_EXEC:
+    mov bx, PROGRAM_START
+    call READ_DISK
+    jmp PROGRAM_START
+
+RESET_COMMAND:
+    mov di, command
+    .loop:
+        mov byte [di], 0
+        inc di
+        cmp di, command+256
+        jne .loop
+    mov di, command
+    ret
+
+command times 256 db 0
+prompt db "!# ",0
+
+BACKSPACE_CHAR equ 0x08
+ENTER_CHAR equ 0x0d
+SPACE_CHAR equ 0x20
+times 1024 - $ + $$ db 0
