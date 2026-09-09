@@ -4,6 +4,9 @@
 ; let NUM-NAME.asm be the program
 ; cx = NUM
 
+testp db "test",0
+cow db "cow",0
+
 TEST:
     mov cx, 0
     jmp FINISH
@@ -13,7 +16,24 @@ COW:
     jmp FINISH
 
 FINISH:
-    mul cx, 4
-    add cx, 3
+    inc cx
+    imul cx, 4
     mov al, 4
     ret
+
+COMMANDS:
+    mov cx, 0
+
+    mov bx, testp
+    call strcmp
+    cmp bx, 1
+    je TEST
+
+    mov bx, cow
+    call strcmp
+    cmp bx, 1
+    je COW
+    
+    ret
+    
+%include "lib/strcmp.asm"
