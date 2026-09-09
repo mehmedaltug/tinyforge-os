@@ -7,14 +7,6 @@
 testp db "test",0
 cow db "cow",0
 
-TEST:
-    mov cx, 0
-    jmp FINISH
-
-COW:
-    mov cx, 1
-    jmp FINISH
-
 FINISH:
     inc cx
     imul cx, 4
@@ -27,12 +19,14 @@ COMMANDS:
     mov bx, testp
     call strcmp
     cmp bx, 1
-    je TEST
+    mov cx, 0
+    jmp FINISH
 
     mov bx, cow
     call strcmp
     cmp bx, 1
-    je COW
+    mov cx, 1
+    jmp FINISH
     
     ret
     
