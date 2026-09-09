@@ -1,24 +1,22 @@
-; bx & cx as string, returns bx = 1 for true, 0 for false
+; bx & si as string, returns bx = 1 for true, 0 for false
 
 strcmp:
     push ax
-    push di
-    mov di, cx
+    push si
     strcmp_loop:
-        mov al, [bx]
-        mov ah, [di]
+        mov ah, [bx]
+        mov al, [si]
         cmp al, ah
         jne strcmp_false
         inc bx
-        inc di
+        inc si
         cmp al, 0
         jne strcmp_loop
-        pop di
-        pop ax
-        mov bx, 0x0001
-        ret
+        mov bx, 1
+        jmp strcmp_exit
     strcmp_false:
-        pop di
+        mov bx, 0
+    strcmp_exit:
+        pop si
         pop ax
-        mov bx, 0x0000
         ret
