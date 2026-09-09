@@ -11,11 +11,12 @@ mov bx, text
     int 0x10
     jmp .print_loop
 .print_loop_exit:
-    mov cx, PROGRAM_EXEC_FINISHED
-    push cx
+    call print_nl
     jmp KERNEL_START
 
 text:
     db "Hello, World!",0
+
+%include "lib/print_nl.asm"
 
 times 2048 - $ + $$ db 0
