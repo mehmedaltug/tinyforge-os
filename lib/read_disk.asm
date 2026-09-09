@@ -1,9 +1,9 @@
-; Read al sectors, starting from cl (1 is bootloader) in ch cylşnder, from the BIOS drive in DL
+; Read al sectors, starting from cl (1 is bootloader) in ch cylinder
 
 READ_DISK:
     pusha
     mov ah, 0x02                   ; disk read code
-    mov dh, 0                      ; head
+    mov dx, 0x0080                 ; head (dh), drive (dl, 0x80 dor hard disk)
     int 0x13
     
     jnc noError
