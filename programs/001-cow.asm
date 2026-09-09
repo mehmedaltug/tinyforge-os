@@ -2,30 +2,28 @@
 [org PROGRAM_START]
 
 cow:
-	mov bx, cow_part1
-	mov bx, cow_part1
+	mov si, cow_part1
+	mov si, cow_part1
 	call print
 	call print_nl
-	mov bx, cow_part2
+	mov si, cow_part2
 	call print
 	call print_nl
-	mov bx, cow_part3
+	mov si, cow_part3
 	call print
 	call print_nl
-	mov bx, cow_part4
+	mov si, cow_part4
 	call print
 	call print_nl
-	mov bx, cow_part5
+	mov si, cow_part5
 	call print
 	call print_nl
-	mov bx, cow_part6
+	mov si, cow_part6
 	call print
 	call print_nl
-	mov bx, cow_part7
+	mov si, cow_part7
 	call print
 	call print_nl
-	mov cx, PROGRAM_EXEC_FINISHED
-	push cx
 	jmp KERNEL_START
 
 cow_part1:
