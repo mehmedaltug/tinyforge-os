@@ -7,7 +7,7 @@ mov ss, ax
 mov sp, 0x7c00
 
 mov bx, KERNEL_START            ; Where to put read sectors
-mov al, 1                       ; How many sectors
+mov al, 2                       ; How many sectors
 mov cl, 2                       ; Where to start
 
 call READ_DISK
