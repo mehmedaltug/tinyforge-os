@@ -13,8 +13,8 @@ mov cl, 2                       ; Where to start
 call READ_DISK
 jmp bx
 
-%include "lib/constants.asm"
-%include "lib/read_disk.asm"
+%include "lib/constants.nasm"
+%include "lib/read_disk.nasm"
 
 times 510-($-$$) db 0
 dw 0xaa55

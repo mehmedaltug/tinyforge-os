@@ -1,4 +1,4 @@
-%include "lib/constants.asm"
+%include "lib/constants.nasm"
 [org PROGRAM_START]
 
 mov bx, text
@@ -17,6 +17,6 @@ mov bx, text
 text:
     db "Hello, World!",0
 
-%include "lib/print_nl.asm"
+%include "lib/print_nl.nasm"
 
 times 2048 - $ + $$ db 0

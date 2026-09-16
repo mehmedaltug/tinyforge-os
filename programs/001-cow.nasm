@@ -1,4 +1,4 @@
-%include "lib/constants.asm"
+%include "lib/constants.nasm"
 [org PROGRAM_START]
 
 cow:
@@ -41,7 +41,7 @@ cow_part6:
 cow_part7:
 	db '     "     " "',0
 
-%include "lib/print.asm"
-%include "lib/print_nl.asm"
+%include "lib/print.nasm"
+%include "lib/print_nl.nasm"
 
 times 2048 - $ + $$ db 0

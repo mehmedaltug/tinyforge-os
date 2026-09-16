@@ -17,8 +17,8 @@ fi
 
 if [[ $1 == "build" ]]; then
     mkdir -p ./out/programs
-    nasm -f bin ./src/kernel.asm -o ./out/kernel.bin
-    nasm -f bin ./src/bootloader.asm -o ./out/bootloader.bin
+    nasm -f bin ./src/kernel.nasm -o ./out/kernel.bin
+    nasm -f bin ./src/bootloader.nasm -o ./out/bootloader.bin
     for i in ./programs/*; do
         if [ -f "$i" ]; then
             FILE_FULL_NAME=${i##*/}
@@ -31,8 +31,8 @@ if [[ $1 == "build" ]]; then
 fi
 
 if [[ $1 == "run" ]]; then
-    nasm -f bin ./src/kernel.asm -o ./out/kernel.bin
-    nasm -f bin ./src/bootloader.asm -o ./out/bootloader.bin
+    nasm -f bin ./src/kernel.nasm -o ./out/kernel.bin
+    nasm -f bin ./src/bootloader.nasm -o ./out/bootloader.bin
     for i in ./programs/*; do
         if [ -f "$i" ]; then
             FILE_FULL_NAME=${i##*/}
