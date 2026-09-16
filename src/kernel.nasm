@@ -1,8 +1,8 @@
-%include "lib/constants.asm"
+%include "lib/constants.nasm"
 [org KERNEL_START]
 
 cmp [command], 0
-jne NEW_LINE.skip_exec
+jne NEW_LINE.continue
 
 MAIN:
     call clear_screen
@@ -42,18 +42,22 @@ NEW_LINE:
     je .skip_exec
     call PROGRAM_EXEC
     .skip_exec:
+    mov si, not_found
+    call print
+    call print_nl
+    .continue:
     mov si, prompt
     call print
     call RESET_COMMAND
     jmp MAIN.loop
 
-%include "src/program_register.asm"
-%include "lib/print_char.asm"
-%include "lib/print_nl.asm"
-%include "lib/print.asm"
-%include "lib/clear_screen.asm"
-%include "lib/read_disk.asm"
-%include "lib/input.asm"
+%include "src/program_register.nasm"
+%include "lib/print_char.nasm"
+%include "lib/print_nl.nasm"
+%include "lib/print.nasm"
+%include "lib/clear_screen.nasm"
+%include "lib/read_disk.nasm"
+%include "lib/input.nasm"
 
 PROGRAM_EXEC:
     mov bx, PROGRAM_START
@@ -72,6 +76,7 @@ RESET_COMMAND:
 
 command times 256 db 0
 prompt db "!# ",0
+not_found db " Command Not Found!",0
 
 BACKSPACE_CHAR equ 0x08
 ENTER_CHAR equ 0x0d
