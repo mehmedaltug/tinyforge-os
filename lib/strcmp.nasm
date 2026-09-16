@@ -4,13 +4,12 @@ strcmp:
     push ax
     push si
     strcmp_loop:
-        mov ah, [bx]
         mov al, [si]
-        cmp al, ah
+        cmp al, [bx]
         jne strcmp_false
         inc bx
         inc si
-        cmp al, 0
+        test al, al
         jne strcmp_loop
         mov bx, 1
         jmp strcmp_exit
