@@ -3,7 +3,7 @@
 OUTPUT_FILE="./out/boot.img"
 
 if [ $# -ne 1 ]; then
-    echo "At least 1 argument:\nclean build run dry-run\n"
+    echo "At least 1 argument:\nclean build run\n"
     exit 1
 fi
 
@@ -31,21 +31,6 @@ if [[ $1 == "build" ]]; then
 fi
 
 if [[ $1 == "run" ]]; then
-    nasm -f bin ./src/kernel.nasm -o ./out/kernel.bin
-    nasm -f bin ./src/bootloader.nasm -o ./out/bootloader.bin
-    for i in ./programs/*; do
-        if [ -f "$i" ]; then
-            FILE_FULL_NAME=${i##*/}
-            FILE_NAME=${FILE_FULL_NAME%.*}
-            nasm -f bin "./programs/${FILE_FULL_NAME}" -o "./out/programs/${FILE_NAME}.bin"
-        fi
-    done
-    cat ./out/bootloader.bin ./out/kernel.bin ./out/programs/* > $OUTPUT_FILE
-    qemu-system-x86_64 -drive file=./out/boot.img,format=raw
-    exit
-fi
-
-if [[ $1 == "dry-run" ]]; then
     if [ -f "$OUTPUT_FILE" ]; then
         qemu-system-x86_64 -drive file=./out/boot.img,format=raw
         exit
