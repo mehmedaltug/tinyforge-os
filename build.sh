@@ -39,5 +39,5 @@ if [[ $1 == "run" ]]; then
     exit -1
 fi
 
-echo "Not a valid argument : $1 \nValid arguments are:\nclean build run dry-run"
+echo "Not a valid argument : $1 \nValid arguments are:\nclean build run"
 exit 1
